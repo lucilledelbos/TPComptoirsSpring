@@ -44,7 +44,7 @@ public class LigneService {
      *  @return la ligne de commande créée
      */
     @Transactional
-    Ligne ajouterLigne(Integer commandeNum, Integer produitRef, @Positive int quantite) {
-        throw new UnsupportedOperationException("Cette méthode n'est pas implémentée");
-    }
+   Ligne ajouterLigne(Integer commandeNum, Integer produitRef, @Positive int quantite) {
+        throw new UnsupportedOperationException();
+   }
 }

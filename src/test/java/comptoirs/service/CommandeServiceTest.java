@@ -1,8 +1,10 @@
 package comptoirs.service;
 
+import comptoirs.dao.ProduitRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
 
 import java.math.BigDecimal;
 
@@ -19,6 +21,8 @@ class CommandeServiceTest {
 
     @Autowired
     private CommandeService service;
+    @Autowired
+    private ProduitRepository produitDao;
     @Test
     void testCreerCommandePourGrosClient() {
         var commande = service.creerCommande(ID_GROS_CLIENT);
@@ -40,5 +44,13 @@ class CommandeServiceTest {
         var commande = service.creerCommande(ID_PETIT_CLIENT);
         assertEquals(VILLE_PETIT_CLIENT, commande.getAdresseLivraison().getVille(),
             "On doit recopier l'adresse du client dans l'adresse de livraison");
-    }   
+    }
+    @Test
+    void testDecrementerLeStock(){
+        var produit = produitDao.findById(98).orElseThrow();
+        int stockAvant= produit.getUnitesEnStock();
+        service.enregistreExpédition(99998);
+        var produit2 = produitDao.findById(98).orElseThrow();
+        assertEquals(stockAvant-20, produit2.getUnitesEnStock(), "décrémentation du stock de 20 unités");
+    }
 }
