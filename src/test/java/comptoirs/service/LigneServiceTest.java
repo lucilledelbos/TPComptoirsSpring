@@ -37,4 +37,29 @@ class LigneServiceTest {
             () -> service.ajouterLigne(NUMERO_COMMANDE_PAS_LIVREE, REFERENCE_PRODUIT_DISPONIBLE_1, 0),
             "La quantite d'une ligne doit être positive");
     }
+
+    @Test
+        void testLaCommandeExistePas(){
+
+        assertThrows(Exception.class,
+                () -> service.ajouterLigne(99, 98, 20));
+    }
+
+    @Test
+    void testLeProduitExistePas(){
+        assertThrows(Exception.class,
+                () -> service.ajouterLigne(99999, 4, 20));
+    }
+
+    @Test
+    void testLaCommandeEstDejaEnvoyee(){
+        assertThrows(Exception.class,
+                () -> service.ajouterLigne(99999, 98, 15));
+    }
+
+    @Test
+    void testQuantitéStockSuffisante(){
+        assertThrows(IllegalStateException.class,
+                () -> service.ajouterLigne(99998, 98, 150));
+    }
 }
